@@ -20,7 +20,11 @@ export class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.images !== this.state.images) {
-      }
+      console.log('Стан images змінився');
+    }
+    if (prevState.pageNr !== this.state.pageNr) {
+       console.log('Стан pageNr змінився'); 
+    } 
   };
 
   handleSubmit = async e => {
