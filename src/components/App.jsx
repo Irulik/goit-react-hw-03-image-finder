@@ -18,6 +18,11 @@ export class App extends Component {
     hasMoreImages: true,
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.images !== this.state.images) {
+      }
+  };
+
   handleSubmit = async e => {
     e.preventDefault();
     this.setState({ isLoading: true });
