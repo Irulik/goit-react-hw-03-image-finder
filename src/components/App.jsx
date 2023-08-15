@@ -15,6 +15,7 @@ export class App extends Component {
     modalOpen: false,
     modalImg: '',
     modalAlt: '',
+    hasMoreImages: true,
   };
 
   handleSubmit = async e => {
@@ -30,6 +31,7 @@ export class App extends Component {
       isLoading: false,
       currentSearch: inputForSearch.value,
       pageNr: 1,
+      hasMoreImages: response.length >= 12,
     });
   };
 
@@ -38,10 +40,14 @@ export class App extends Component {
       this.state.currentSearch,
       this.state.pageNr + 1
     );
-    this.setState({
-      images: [...this.state.images, ...response],
-      pageNr: this.state.pageNr + 1,
-    });
+    if (response.length === 0) {
+      this.setState({ hasMoreImages: false });
+    } else {
+      this.setState({
+        images: [...this.state.images, ...response],
+        pageNr: this.state.pageNr + 1,
+      });
+    }
   };
 
   handleImageClick = e => {
@@ -59,17 +65,7 @@ export class App extends Component {
       modalAlt: '',
     });
   };
-
-  handleKeyDown = event => {
-    if (event.code === 'Escape') {
-      this.handleModalClose();
-    }
-  };
-
-  async componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
-
+  
   render() {
     return (
       <div
@@ -89,7 +85,7 @@ export class App extends Component {
               onImageClick={this.handleImageClick}
               images={this.state.images}
             />
-            {this.state.images.length > 0 ? (
+            {this.state.images.length > 0 && this.state.images.length >= 12 && this.state.hasMoreImages ? (
               <Button onClick={this.handleClickMore} />
             ) : null}
           </React.Fragment>
@@ -107,4 +103,3 @@ export class App extends Component {
 }
 
 export default App;
-
